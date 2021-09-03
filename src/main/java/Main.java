@@ -5,48 +5,62 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-/*
- // ASK USER
-    public static void askUser(int length){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Which direction do you want to place ship? (Right:1 or Down:0)");
-        int direction=sc.nextInt();
-        System.out.println("Where do you want to place x=?   " +  length + " lenght ship?");
-        int x=sc.nextInt();
-        System.out.println("Where do you want to place y=？   " +  length + " lenght ship?");
-        int y=sc.nextInt();
-        this.placeShip(x,y,length,direction);
-        this.p1.draw();
-    }*/
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Field p1 = new Field();
-        Field p2 = new Field();
+        Field p1 = new Field("User", false);
+        Field p2 = new Field("Computer", true);
 
-        List<Integer> list = Arrays.asList(4, 3, 3, 2, 2, 2, 1, 1, 1, 1);
+        Bot bot = new Bot(p2);
 
-     while(list.size() > 0){
+        List<Integer> list = new ArrayList<>();
+        list.add(4);
+        list.add(3);
+
+
+//        list.add(3);
+//        list.add(2);
+//        list.add(2);
+//        list.add(2);
+//        list.add(1);
+//        list.add(1);
+//        list.add(1);
+//        list.add(1);
+
+
+        bot.placeShips(new ArrayList(list));//automatic place ship for computer
+        //place ships for player
+        while (list.size() > 0) {
             int a = list.get(0);
-            p1.askUser(a);
-            p2.askUser(a);
+            if (p1.askUser(a) == false) {
+                p1.askUser(a);
+            }
+            p1.draw();
             list.remove(0);
         }
         p1.draw();// show the palyer his ship place .
+        //bot.field.draw();
 
-
-//play
-     while(p1.checkWin()!=0&&p2.checkWin()!=0) {
-        p1.guessWhereIsShip();
-        p2.guessWhereIsShip();
-     }
-
+        while (p1.checkWin() != 0 && p2.checkWin() != 0) {
+            while (p2.guessWhereIsShip( guessPlace(),  guessPlace())) {
+                p2.draw();
+            }
+            System.out.println("is computer turn");
+            bot.logicGuessShips();
+        }
 
 
 //check win
-int win= p1.checkWin()> p2.checkWin()?p1.checkWin():p2.checkWin();
-        System.out.println("winner is "+"win"+ win+"ships");
 
+        Boolean winner = p1.checkWinner() == true ? p1.checkWinner() : p2.checkWinner();//?
+        int win = p1.checkWin() > p2.checkWin() ? p1.checkWin() : p2.checkWin();
+        System.out.println("winner is , " + winner + ",  win " + win + " ships");
+
+    }
+    public static int guessPlace(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("guess where are my ship  x and y   ");
+        return sc.nextInt();
     }
 }

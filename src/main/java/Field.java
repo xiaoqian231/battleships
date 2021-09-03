@@ -3,15 +3,21 @@ import java.util.Scanner;
 
 public class Field {
     int[][] field = new int[10][10];
+    private String name;
+    private boolean isItEnemy;
 
-    // 0 empty, 1 somebody has shoot there, 2 ship, 3 drown ship
-    public Field() {
+    public Field(String name, boolean isItEnemy) {
+        this.name = name;
+        this.isItEnemy = isItEnemy;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 field[i][j] = 0;
             }
         }
     }
+
+    // 0 empty, 1 somebody has shot there, 2 ship, 3 drown ship
+
 
     public void draw() {
         System.out.print(" ");
@@ -22,7 +28,16 @@ public class Field {
         for (int i = 0; i < 10; i++) {
             System.out.print(i);
             for (int j = 0; j < 10; j++) {
-                System.out.print(field[i][j]);
+                if (field[i][j] == 1) {
+                    System.out.print('x');
+                } else if (field[i][j] == 2 && !isItEnemy) {
+                    System.out.print('H');
+                } else if (field[i][j] == 3) {
+                    System.out.print('@');
+                } else {
+                    System.out.print('o');
+                }
+
             }
             System.out.println();
         }
@@ -66,26 +81,34 @@ public class Field {
         return moveRight(x, y, shipLenght);
     }
 
-
-    public void guessWhereIsShip() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("guess where are my ship  x=?   ");
-        int x = sc.nextInt();
-        System.out.println("guess where are my ship  y=?   ");
-        int y = sc.nextInt();
+    //TODO:add placing ships by passed x & y and move scanner to the main
+    public boolean guessWhereIsShip(int x, int y) {
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("guess where are my ship  x=?   ");
+//        int x = sc.nextInt();
+//        System.out.println("guess where are my ship  y=?   ");
+//        int y = sc.nextInt();
         if (field[x][y] == 2) {
             field[x][y] = 3;
             System.out.println("correct!");
-        } else {
+            return true;
+        } else if (field[x][y] == 3 || field[x][y] == 1) {
+            System.out.println("this place has been shoot,place change a place ");
+            return false;
+        } else  if (field[x][y] == 0){
+            field[x][y] = 1;
             System.out.println("guessed wrong!");
+            return false;
         }
+       return false;
+
     }
 
     public int checkWin() {
-        ArrayList <Integer> leftShips=new ArrayList<>() ;
+        ArrayList<Integer> leftShips = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                if (field[i][j]==2){
+                if (field[i][j] == 2) {
                     leftShips.add(i);
                 }
             }
@@ -93,15 +116,32 @@ public class Field {
         return leftShips.size();
     }
 
+    public boolean checkWinner() {
+        ArrayList<Integer> leftShips = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (field[i][j] == 2) {
+                    leftShips.add(i);
+                }
+            }
+        }
+        if (leftShips.size() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    public  void askUser(int length){
+
+    public boolean askUser(int length) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Which direction do you want to place ship? (Right:1 or Down:0)");
-        int direction=sc.nextInt();
-        System.out.println("Where do you want to place x=?   " +  length + " lenght ship?");
-        int x=sc.nextInt();
-        System.out.println("Where do you want to place y=？   " +  length + " lenght ship?");
-        int y=sc.nextInt();
-       placeShip(x,y,length,direction);
+        int direction = sc.nextInt();
+        System.out.println("Where do you want to place x=?   " + length + " lenght ship?");
+        int x = sc.nextInt();
+        System.out.println("Where do you want to place y=？   " + length + " lenght ship?");
+        int y = sc.nextInt();
+        return placeShip(x, y, length, direction);
+
     }
 }
