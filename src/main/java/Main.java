@@ -40,7 +40,7 @@ public class Main {
             list.remove(0);
         }
         p1.draw();// show the palyer his ship place .
-        //bot.field.draw();
+       bot.field.draw();
 
         while (p1.checkWin() != 0 && p2.checkWin() != 0) {
             while (p2.guessWhereIsShip( guessPlace(),  guessPlace())) {
