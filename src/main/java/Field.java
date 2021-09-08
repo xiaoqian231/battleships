@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Field {
-    int[][] field = new int[10][10];
+int[][] field = new int[10][10];
+
     private String name;
     private boolean isItEnemy;
 
@@ -20,6 +21,9 @@ public class Field {
 
 
     public void draw() {
+        if(isItEnemy) System.out.println("Enemy's field");
+        else System.out.println("Your Field");
+
         System.out.print(" ");
         for (int i = 0; i < 10; i++) {
             System.out.print(i);
@@ -30,7 +34,7 @@ public class Field {
             for (int j = 0; j < 10; j++) {
                 if (field[i][j] == 1) {
                     System.out.print('x');
-                } else if (field[i][j] == 2 && !isItEnemy) {
+                } else if (field[i][j] == 2) {
                     System.out.print('H');
                 } else if (field[i][j] == 3) {
                     System.out.print('@');
@@ -82,7 +86,7 @@ public class Field {
     }
 
     //TODO:add placing ships by passed x & y and move scanner to the main
-    public boolean guessWhereIsShip(int x, int y) {
+    public int guessWhereIsShip(int x, int y) {
 //        Scanner sc = new Scanner(System.in);
 //        System.out.println("guess where are my ship  x=?   ");
 //        int x = sc.nextInt();
@@ -91,16 +95,16 @@ public class Field {
         if (field[x][y] == 2) {
             field[x][y] = 3;
             System.out.println("correct!");
-            return true;
+            return 1;
         } else if (field[x][y] == 3 || field[x][y] == 1) {
             System.out.println("this place has been shoot,place change a place ");
-            return false;
+            return 2;
         } else  if (field[x][y] == 0){
             field[x][y] = 1;
             System.out.println("guessed wrong!");
-            return false;
+            return 0;
         }
-       return false;
+       return 0;
 
     }
 

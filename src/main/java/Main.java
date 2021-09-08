@@ -40,27 +40,37 @@ public class Main {
             list.remove(0);
         }
         p1.draw();// show the palyer his ship place .
-       bot.field.draw();
+      p2.draw();//
 
         while (p1.checkWin() != 0 && p2.checkWin() != 0) {
-            while (p2.guessWhereIsShip( guessPlace(),  guessPlace())) {
+            while (p2.guessWhereIsShip( guessPlace(),  guessPlace())>0) {
                 p2.draw();
             }
             System.out.println("is computer turn");
-            bot.logicGuessShips();
+            while(bot.logicGuessShips(p1)>0) {
+                p1.draw();
+            }
+            p2.draw();
+            p1.draw();
         }
 
 
-//check win
-
-        Boolean winner = p1.checkWinner() == true ? p1.checkWinner() : p2.checkWinner();//?
-        int win = p1.checkWin() > p2.checkWin() ? p1.checkWin() : p2.checkWin();
-        System.out.println("winner is , " + winner + ",  win " + win + " ships");
+        //check win
+        System.out.println("winner is , " + checkWin( p1,p2));
 
     }
     public static int guessPlace(){
         Scanner sc = new Scanner(System.in);
         System.out.println("guess where are my ship  x and y   ");
         return sc.nextInt();
+    }
+
+    public static Field  checkWin(Field p1,Field p2){
+      if (p1.checkWin() > p2.checkWin()){
+          return p1;
+      }else{
+          return p2;
+      }
+
     }
 }
