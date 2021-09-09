@@ -56,7 +56,7 @@ public class Main {
 
 
         //check win
-        System.out.println("winner is , " + checkWin( p1,p2));
+        System.out.println("winner is : " + checkWin( p1,p2).getName());
 
     }
     public static int guessPlace(){

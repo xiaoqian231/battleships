@@ -85,6 +85,22 @@ int[][] field = new int[10][10];
         return moveRight(x, y, shipLenght);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isItEnemy() {
+        return isItEnemy;
+    }
+
+    public void setItEnemy(boolean itEnemy) {
+        isItEnemy = itEnemy;
+    }
+
     //TODO:add placing ships by passed x & y and move scanner to the main
     public int guessWhereIsShip(int x, int y) {
 //        Scanner sc = new Scanner(System.in);
